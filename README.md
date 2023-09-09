@@ -1,16 +1,10 @@
 # TextAdventure
 
 ## TODO
-- remove capitals from user input
 - Return Fire
-    - Enemy Weapon
-    - Enemy fight
     - Death screen
 - End Goal
     - no. of enemies killed
-- Healing
-    - between combat
-    - limited uses
 - different enemies
     - chaos
     - orks
