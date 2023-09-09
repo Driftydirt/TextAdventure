@@ -44,14 +44,14 @@ public class Main {
                 switch (userInput.toLowerCase()) {
                     case "left":
                         System.out.println("You turn left");
-                        combat("termigant", 1);
+                        missionOver = combat("Genestealer", 1);
                         break;
                     case "right":
                         System.out.println("You turn right");
-                        combat("termigant", 1);
+                        missionOver = combat("Genestealer", 1);
                     case "forward":
                         System.out.println("You continue forward");
-                        combat("termigant", 1);
+                        missionOver = combat("Genestealer", 1);
                     default:
                         break;
                 }
@@ -59,7 +59,7 @@ public class Main {
         }
     }
 
-    public void combat(String enemyName, int quantity) {
+    public boolean combat(String enemyName, int quantity) {
         System.out.println("Your Auspex shows a blip ahead, 'Enemy detected!'");
         System.out.println("Charging towards you is " + quantity + " " + enemyName);
         List<Weapon> enemyWeapons = new ArrayList<Weapon>();
@@ -68,32 +68,45 @@ public class Main {
         boolean combatOver = false;
 
         while (!combatOver) {
+            System.out.println("Your Turn!");
             System.out.println("You can either shoot your storm bolter, or swing your power fist");
 
             String userInput = input.nextLine();
 
             for (Weapon weapon : this.player.getWeapons()) {
                 if (userInput.equals(weapon.getName().toLowerCase())) {
-                    combatOver = attack(enemy, weapon);
+                    combatOver = attack(player, enemy, weapon);
                 }
             }
 
+            if (combatOver)
+                break;
+
+            combatOver = attack(enemy, player, enemy.getWeapon(0));
+
+            if (combatOver)
+                return true;
+
         }
+        return false;
+
     }
 
-    public boolean attack(Enemy enemy, Weapon weapon) {
-        System.out.println("You attack with " + weapon.getName() + ".");
+    public boolean attack(Character attacker, Character defender, Weapon weapon) {
+        System.out.println(attacker.getName() + " attacks with " + weapon.getName() + ".");
         int attackRoll = (int) Math.round(Math.random() * 6);
         attackRoll += weapon.getAccuracy();
         boolean dead = false;
-        if (attackRoll > enemy.getAC()) {
-            System.out.println("Your attack lands and causes damage.");
-            dead = enemy.lowerHP(weapon.getDmg());
+        if (attackRoll > defender.getAC()) {
+            System.out.println(attacker.getName() + "'s attack lands and causes damage.");
+            dead = defender.lowerHP(weapon.getDmg());
             if (dead) {
-                System.out.println("The enemy falls down dead from your might blow!");
+                System.out.println(defender.getName() + " falls down dead!");
             } else {
-                System.out.println("The " + enemy.getName() + " has " + enemy.getHP() + "HP left.");
+                System.out.println(defender.getName() + " has " + defender.getHP() + "HP left.");
             }
+        } else {
+            System.out.println(attacker.getName() + "'s attack misses.");
         }
         return dead;
     }
