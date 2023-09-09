@@ -16,8 +16,9 @@ public class Main {
         List<Weapon> weaponList = new ArrayList<>();
         weaponList.add(new Weapon("Storm Bolter", 0, 2));
         weaponList.add(new Weapon("Power Fist", 2, 1));
+        Bag bag = new Bag(2);
 
-        main.player = new Player("Space Marine", 10, 4, weaponList);
+        main.player = new Player("Space Marine", 8, 4, weaponList, bag);
 
         System.out.println("Welcome Brother!");
         System.out.println("May the God-Emperor Bless You!");
@@ -30,32 +31,90 @@ public class Main {
     }
 
     public void intro() {
-
-        String[] directions = { "left", "right", "forward" };
+        String[] actions = { "move", "bag" };
         System.out.println("Upon boarding the space hulk, you emerge into a relatively familiar scene.");
         System.out.println("The corridor of a Gothic-class cruiser greets you.");
         System.out.println("A few paces ahead there is a crossroad in the path.");
         boolean missionOver = false;
         while (!missionOver) {
             String userInput = "";
-            while (!Arrays.asList(directions).contains(userInput)) {
-                System.out.println("You can continue forward, or turn either left, or right.");
+            while (!Arrays.asList(actions).contains(userInput)) {
+                System.out.println("You can either move or look in your bag.");
+
                 userInput = input.nextLine();
                 switch (userInput.toLowerCase()) {
-                    case "left":
-                        System.out.println("You turn left");
-                        missionOver = combat("Genestealer", 1);
+                    case "move":
+                        boolean moved = false;
+                        while (!moved) {
+                            System.out.println("You can continue forward, or turn either left, or right.");
+                            userInput = input.nextLine();
+                            switch (userInput.toLowerCase()) {
+                                case "left":
+                                    System.out.println("You turn left");
+                                    missionOver = combat("Genestealer", 1);
+                                    moved = true;
+                                    break;
+                                case "right":
+                                    System.out.println("You turn right");
+                                    missionOver = combat("Genestealer", 1);
+                                    moved = true;
+                                    break;
+                                case "forward":
+                                    System.out.println("You continue forward");
+                                    missionOver = combat("Genestealer", 1);
+                                    moved = true;
+                                    break;
+                                case "return":
+                                    moved = true;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
                         break;
-                    case "right":
-                        System.out.println("You turn right");
-                        missionOver = combat("Genestealer", 1);
-                    case "forward":
-                        System.out.println("You continue forward");
-                        missionOver = combat("Genestealer", 1);
+                    case "bag":
+                        boolean bagLookOver = false;
+
+                        while (!bagLookOver) {
+
+                            System.out.println(
+                                    "You can use a stim (restores 1HP), you are currently " + player.getHP() + "HP.");
+
+                            System.out.println("You have " + player.getBag().getStims() + " stims");
+                            userInput = input.nextLine();
+                            switch (userInput.toLowerCase()) {
+                                case "use stim":
+                                case "stim":
+                                    Bag bag = player.getBag();
+                                    if (bag.takeStim()) {
+                                        if (!player.useStim()) {
+                                            System.out.println("You are at max HP, you return the stim to your bag.");
+                                            bag.returnStim();
+                                        } else {
+                                            System.out.println("You have been healed to " + player.getHP() + "HP.");
+                                        }
+                                        player.setBag(bag);
+                                        break;
+                                    }
+                                    System.out.println("You have no stims left.");
+                                    break;
+                                case "return":
+                                case "go back":
+                                    bagLookOver = true;
+                                    break;
+                                default:
+                                    break;
+                            }
+
+                        }
+                        break;
+
                     default:
                         break;
                 }
+
             }
+
         }
     }
 

@@ -2,10 +2,10 @@
 import java.util.List;
 
 public class Character {
-    private String name;
-    private int HP;
-    private int ac;
-    private List<Weapon> weapons;
+    protected String name;
+    protected int HP;
+    protected int ac;
+    protected List<Weapon> weapons;
 
     public Character(String name, int HP, int ac, List<Weapon> weapons) {
         this.name = name;
