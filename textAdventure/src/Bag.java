@@ -24,4 +24,8 @@ public class Bag {
     public void returnStim() {
         this.stims += 1;
     }
+
+    public String toString() {
+        return "You have " + this.stims + " stims";
+    }
 }

@@ -18,8 +18,6 @@ public class Main {
         weaponList.add(new Weapon("Power Fist", 2, 1));
         Bag bag = new Bag(2);
 
-        main.player = new Player("Space Marine", 8, 4, weaponList, bag);
-
         System.out.println("Welcome Brother!");
         System.out.println("May the God-Emperor Bless You!");
         System.out.println("What is your name, brother?");
@@ -27,6 +25,8 @@ public class Main {
         System.out.println("Welcome to the chapter, " + name + "!");
         System.out.println("The mission is to breach a infernal space hulk and cleanse it of filthy xenos.");
         System.out.println("Good luck brother.");
+        main.player = new Player(name, 10, 4, weaponList, bag);
+
         main.intro();
     }
 
@@ -80,7 +80,7 @@ public class Main {
                             System.out.println(
                                     "You can use a stim (restores 1HP), you are currently " + player.getHP() + "HP.");
 
-                            System.out.println("You have " + player.getBag().getStims() + " stims");
+                            System.out.println(player.getBag().toString());
                             userInput = input.nextLine();
                             switch (userInput.toLowerCase()) {
                                 case "use stim":
