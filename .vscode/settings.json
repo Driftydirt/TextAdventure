@@ -1,0 +1,8 @@
+{
+  "java.checkstyle.configuration": "${workspaceFolder}\\eclipse-formatter.xml",
+  "java.checkstyle.version": "10.12.3",
+  "java.format.settings.url": "eclipse-formatter.xml",
+  "java.project.sourcePaths": [
+    "textAdventure\\src"
+  ]
+}

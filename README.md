@@ -1,6 +1,7 @@
 # TextAdventure
 
 ## TODO
+- remove capitals from user input
 - Return Fire
     - Enemy Weapon
     - Enemy fight
